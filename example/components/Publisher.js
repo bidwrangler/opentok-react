@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import { OTPublisher } from '../../src'
-import RadioButtons from './RadioButtons';
 import CheckBox from './CheckBox';
 
 export default class Publisher extends Component {
@@ -11,8 +10,7 @@ export default class Publisher extends Component {
     this.state = {
       error: null,
       audio: true,
-      video: true,
-      videoSource: 'camera'
+      video: false
     };
   }
 
@@ -22,10 +20,6 @@ export default class Publisher extends Component {
 
   setVideo = (video) => {
     this.setState({ video });
-  }
-
-  setVideoSource = (videoSource) => {
-    this.setState({ videoSource });
   }
 
   onError = (err) => {
@@ -40,32 +34,17 @@ export default class Publisher extends Component {
           properties={{
             publishAudio: this.state.audio,
             publishVideo: this.state.video,
-            videoSource: this.state.videoSource === 'screen' ? 'screen' : undefined
           }}
           onError={this.onError}
         />
-        <RadioButtons
-          buttons={[
-            {
-              label: 'Camera',
-              value: 'camera'
-            },
-            {
-              label: 'Screen',
-              value: 'screen'
-            }
-          ]}
-          initialChecked={this.state.videoSource}
-          onChange={this.setVideoSource}
-        />
         <CheckBox
           label="Publish Audio"
-          initialChecked={this.state.audio}
+          checked={this.state.audio}
           onChange={this.setAudio}
         />
         <CheckBox
           label="Publish Video"
-          initialChecked={this.state.video}
+          checked={this.state.video}
           onChange={this.setVideo}
         />
       </div>
