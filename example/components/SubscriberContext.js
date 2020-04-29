@@ -10,12 +10,12 @@ class SubscriberProvider extends Component {
   }
 
   play = async () => {
-    await Promise.resolve('async!')
+    this.setState(state => ({ label: 'Initiating session...' }))
+    await fetch('https://pokeapi.co/api/v2/pokemon')
     this.initiate()
   }
 
   initiate = () => {
-    this.setState(state => ({ label: 'Initiating session...' }))
     this.session = OT.initSession(this.props.apiKey, this.props.sessionId)
     this.session.on('streamPropertyChanged', this.handleStreamPropertyChanged)
     this.session.on('streamCreated', this.subscribe)
