@@ -4,7 +4,6 @@ import { OTSession, OTStreams, preloadScript } from '../../src'
 import CheckBox from './CheckBox';
 import ConnectionStatus from './ConnectionStatus';
 import Publisher from './Publisher';
-import { SubscriberProvider, SubscriberConsumer } from './SubscriberContext';
 import Subscriber from './Subscriber';
 
 class App extends Component {
@@ -16,7 +15,6 @@ class App extends Component {
       connected: false,
       publish: false,
       subscribe: false,
-      initiallyMuted: false,
       setStateOnSubscribe: false
     };
 
@@ -40,10 +38,6 @@ class App extends Component {
 
   setSetStateOnSubscribe = (setStateOnSubscribe) => {
     this.setState({ setStateOnSubscribe });
-  }
-
-  setInitiallyMuted = (initiallyMuted) => {
-    this.setState({ initiallyMuted });
   }
 
   onError = (err) => {
@@ -72,11 +66,6 @@ class App extends Component {
 
         <h4>Subscriber</h4>
         <CheckBox
-          label="Subscriber initially muted?"
-          value={this.state.initiallyMuted}
-          onChange={this.setInitiallyMuted}
-        />
-        <CheckBox
           label="Set component state during onSubscribe callback?"
           value={this.state.setSetStateOnSubscribe}
           onChange={this.setSetStateOnSubscribe}
@@ -84,16 +73,11 @@ class App extends Component {
         <button onClick={this.toggleSubscriber}>Toggle subscriber</button>
         <br /><br />
         {this.state.subscribe &&
-          <SubscriberProvider
+          <Subscriber
             apiKey={this.props.apiKey}
             sessionId={this.props.sessionId}
             token={this.props.token}
-            initiallyMuted={this.state.initiallyMuted}
-            setStateOnSubscribe={this.state.setStateOnSubscribe}>
-            <SubscriberConsumer>
-              {value => <Subscriber {...value} />}
-            </SubscriberConsumer>
-          </SubscriberProvider>
+            setStateOnSubscribe={this.state.setStateOnSubscribe} />
         }
       </div>
     );
