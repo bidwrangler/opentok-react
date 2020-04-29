@@ -9,7 +9,7 @@ export default class Subscriber extends Component {
   }
 
   play = async () => {
-    await Promise.resolve('async!')
+    await fetch('https://pokeapi.co/api/v2/pokemon')
     this.initiate()
   }
 
